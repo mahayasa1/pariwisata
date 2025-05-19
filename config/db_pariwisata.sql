@@ -22,6 +22,7 @@ create table tb_pengunjung(
 create table tb_sponsor(
     id_sponsor int auto_increment primary key,
     nama varchar(50) not null,
+    gambar text not null,
     alamat varchar(100) not null,
     no_telp varchar(15) not null,
     email varchar(50) not null,
@@ -34,6 +35,7 @@ create table tempat_wisata(
     nama_tempat varchar(50) not null,
     alamat varchar(100) not null,
     deskripsi text not null,
+    gambar varchar(100) not null,
     harga_tiket decimal(10,2) not null,
     jam_buka time not null,
     jam_tutup time not null,

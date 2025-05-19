@@ -1,49 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistem Informasi Pariwisata</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-image: url('https://img.freepik.com/free-photo/beautiful_1203-2633.jpg?ga=GA1.1.157147526.1735924019&semt=ais_hybrid&w=740');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
 
-    <title>Selamat Datang - Sistem Pariwisata</title>
-  </head>
-  <body class="bg-light">
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Transparansi background */
+      z-index: 1;
+    }
 
-  <div class="container py-5">
-    <div class="text-center mb-5">
-      <h1 class="display-5 fw-bold">Sistem Informasi Pariwisata</h1>
-      <p class="lead">Silahkan Pilih jenis Pengguna untuk login atau mendaftar</p>
-    </div>
+    .content-box {
+      z-index: 2;
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.2); /* Transparansi konten */
+      color: white;
+      padding: 40px;
+      border-radius: 12px;
+      /* box-shadow: 0 0 10px rgba(0,0,0,0.3); */
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
 
-    <div class="row g-4 justify-content-center">
-      <!-- Ppengunjung -->
-    <div class="col-md-3">
-      <div class="card border-primary">
-        <div class="card-header bg-primary text-white text-center">
-          Pengunjung
-        </div>
-        <div class="card-body text-center">
-          <a href="auth/login.php?role=pengunjung" class="btn btn-outline-primary mb-2 w-100">Login</a>
-          <a href="auth/register.php?role=pengunjung" class="btn btn-outline-seconary w-100">Daftar</a>
-        </div>
-      </div>
-    </div>
-
-  <!-- Sponsorship -->
-      <div class="col-md">
-        <div class="card border-success">
-          <div class="card-header bg-success text-dark text-center">
-            Sponsorship
-          </div>
-          <div class="card-body text-center">
-            <a href="auth/login.php?role=sponsorship" class="btn btn-outline-success mb-2 w-100">Login</a>
-            <a href="auth/register.php?role=sponsorship" class="btn btn-outline-secondary w-100">Daftar</a>
-        </div>
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="content-box">
+      <h1 class="fw-bold">Sistem Informasi Pariwisata</h1>
+      <p class="fw-bold">Silahkan Pilih jenis Pengguna untuk login</p>
+      <div class="d-grid gap-3 col-12 col-md-6 mx-auto">
+        <a href="controller/auth/login/login_pengunjung.php" class="btn btn-primary fw-bold">PENGUNJUNG</a>
+        <a href="controller/auth/login/login_sponsorship.php" class="btn btn-success fw-bold">SPONSORSHIP</a>
       </div>
     </div>
   </div>
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  </body>
+</body>
 </html>
