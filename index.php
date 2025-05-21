@@ -1,56 +1,62 @@
+<?php
+require_once 'config/database.php';
+$query = mysqli_query($conn, "SELECT * FROM tempat_wisata ORDER BY id_tempat DESC");
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistem Informasi Pariwisata</title>
+  <meta charset="UTF-8">
+  <title>Berita Tempat Wisata - DIBALI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-image: url('https://img.freepik.com/free-photo/beautiful_1203-2633.jpg?ga=GA1.1.157147526.1735924019&semt=ais_hybrid&w=740');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.6); /* Transparansi background */
-      z-index: 1;
-    }
-
-    .content-box {
-      z-index: 2;
-      position: relative;
-      background-color: rgba(255, 255, 255, 0.2); /* Transparansi konten */
-      color: white;
-      padding: 40px;
-      border-radius: 12px;
-      /* box-shadow: 0 0 10px rgba(0,0,0,0.3); */
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
-  <div class="overlay"></div>
 
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="content-box">
-      <h1 class="fw-bold">Sistem Informasi Pariwisata</h1>
-      <p class="fw-bold">Silahkan Pilih jenis Pengguna untuk login</p>
-      <div class="d-grid gap-3 col-12 col-md-6 mx-auto">
-        <a href="controller/auth/login/login_pengunjung.php" class="btn btn-primary fw-bold">PENGUNJUNG</a>
-        <a href="controller/auth/login/login_sponsorship.php" class="btn btn-success fw-bold">SPONSORSHIP</a>
-      </div>
-    </div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">DIBALI</a>
   </div>
+</nav>
+
+<!-- Container -->
+<div class="container">
+  <h3 class="mb-4 fw-bold">Berita & Informasi Tempat Wisata</h3>
+
+  <div class="row">
+    <?php
+    $counter = 0;
+    while ($row = mysqli_fetch_assoc($query)):
+      $counter++;
+    ?>
+      <div class="col-md-6 mb-4">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="asset/img/destinasi/<?= $row['gambar'] ?>" class="img-fluid rounded-start" alt="<?= $row['nama_tempat'] ?>">
+          </div>
+          <div class="col-md-8">
+            <div class="p-2">
+              <h6 class="mb-1 fw-bold">
+                <a href="view/berita.php?id=<?= $row['id_tempat'] ?>" class="text-decoration-none"><?= $row['nama_tempat'] ?></a>
+              </h6>
+              <small class="text-muted d-block mb-1">Dipublikasikan: <?= date('d M Y') ?></small>
+              <p class="mb-2"><?= substr(strip_tags($row['deskripsi']), 0, 120) ?>...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <?php endwhile; ?>
+
+    <?php if ($counter === 0): ?>
+      <div class="col-12">
+        <p class="text-muted">Belum ada data tempat wisata.</p>
+      </div>
+    <?php endif; ?>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
