@@ -1,6 +1,6 @@
 <?php
 require_once 'config/database.php';
-$query = mysqli_query($conn, "SELECT * FROM tempat_wisata ORDER BY id_tempat DESC");
+$query = mysqli_query($conn, "SELECT * FROM tempat_wisata ORDER BY id_tempat DESC LIMIT 5");
 ?>
 
 <!DOCTYPE html>
@@ -14,45 +14,46 @@ $query = mysqli_query($conn, "SELECT * FROM tempat_wisata ORDER BY id_tempat DES
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="#">DIBALI</a>
   </div>
 </nav>
 
 <!-- Container -->
-<div class="container">
-  <h3 class="mb-4 fw-bold">Berita & Informasi Tempat Wisata</h3>
+<div class="container mt-4">
+  <h3 class="fw-bold mb-4">Berita & Informasi Tempat Wisata</h3>
 
   <div class="row">
-    <?php
-    $counter = 0;
-    while ($row = mysqli_fetch_assoc($query)):
-      $counter++;
-    ?>
-      <div class="col-md-6 mb-4">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="asset/img/destinasi/<?= $row['gambar'] ?>" class="img-fluid rounded-start" alt="<?= $row['nama_tempat'] ?>">
-          </div>
-          <div class="col-md-8">
-            <div class="p-2">
-              <h6 class="mb-1 fw-bold">
-                <a href="view/berita.php?id=<?= $row['id_tempat'] ?>" class="text-decoration-none"><?= $row['nama_tempat'] ?></a>
-              </h6>
-              <small class="text-muted d-block mb-1">Dipublikasikan: <?= date('d M Y') ?></small>
-              <p class="mb-2"><?= substr(strip_tags($row['deskripsi']), 0, 120) ?>...</p>
-            </div>
+    <!-- Bagian kiri: daftar berita utama -->
+    <div class="col-lg-8">
+      <?php while($row = mysqli_fetch_assoc($query)): ?>
+        <div class="d-flex mb-4">
+          <img src="asset/img/destinasi/<?= $row['gambar'] ?>" width="150" height="150" class="me-3" alt="gambar">
+          <div>
+            <a href="view/berita.php?id=<?= $row['id_tempat'] ?>" class="text-decoration-none fw-bold text-primary">
+              <?= $row['nama_tempat'] ?>
+            </a>
+            <div class="text-muted mb-1">Dipublikasikan: <?= date('d M Y') ?></div>
+            <p><?= substr($row['deskripsi'], 0, 150) ?>...</p>
           </div>
         </div>
-      </div>
-    <?php endwhile; ?>
+      <?php endwhile; ?>
+    </div>
 
-    <?php if ($counter === 0): ?>
-      <div class="col-12">
-        <p class="text-muted">Belum ada data tempat wisata.</p>
-      </div>
-    <?php endif; ?>
+    <!-- Bagian kanan: daftar berita lainnya -->
+    <div class="col-lg-4">
+      <h5 class="mb-3">Berita Lainnya</h5>
+      <?php
+      $queryRight = mysqli_query($conn, "SELECT * FROM tempat_wisata ORDER BY id_tempat DESC LIMIT 5, 10");
+      while($data = mysqli_fetch_assoc($queryRight)):
+      ?>
+        <div class="mb-3">
+          <a href="view/berita.php?id=<?= $data['id_tempat'] ?>" class="text-decoration-none fw-bold"><?= $data['nama_tempat'] ?></a><br>
+          <small class="text-muted"><?= date('d M Y') ?></small>
+        </div>
+      <?php endwhile; ?>
+    </div>
   </div>
 </div>
 

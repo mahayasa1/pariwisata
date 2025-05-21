@@ -32,7 +32,7 @@ $data = mysqli_fetch_assoc($query);
     </div>
 
     <div class="col-12 mb-3">
-      <img src="../asset/img/destinasi/<?= $data['gambar'] ?>" class="img-fluid" alt="Gambar Tempat Wisata">
+      <img src="../asset/img/destinasi/<?= $data['gambar'] ?>" class="img-fluid" width="200" height="200" alt="Gambar Tempat Wisata">
     </div>
 
     <div class="col-12">
