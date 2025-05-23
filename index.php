@@ -45,11 +45,11 @@ $query = mysqli_query($conn, "SELECT * FROM tempat_wisata ORDER BY id_tempat DES
     <div class="col-lg-4">
       <h5 class="mb-3">Berita Lainnya</h5>
       <?php
-      $queryRight = mysqli_query($conn, "SELECT * FROM tempat_wisata ORDER BY id_tempat DESC LIMIT 5, 10");
+      $queryRight = mysqli_query($conn, "SELECT * FROM tb_berita ORDER BY id_berita DESC LIMIT 5, 10");
       while($data = mysqli_fetch_assoc($queryRight)):
       ?>
         <div class="mb-3">
-          <a href="view/berita.php?id=<?= $data['id_tempat'] ?>" class="text-decoration-none fw-bold"><?= $data['nama_tempat'] ?></a><br>
+          <a href="view/berita.php?id=<?= $data['id_berita'] ?>" class="text-decoration-none fw-bold"><?= $data['judul'] ?></a><br>
           <small class="text-muted"><?= date('d M Y') ?></small>
         </div>
       <?php endwhile; ?>

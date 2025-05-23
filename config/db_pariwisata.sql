@@ -61,3 +61,17 @@ create table tb_transaksi(
     status enum('lunas', 'belum lunas') not null,
     foreign key (id_pemesanan) references tb_pemesanan(id_pemesanan)
 );
+
+create table tb_berita(
+    id_berita int auto_increment primary key,
+    judul varchar(255) not null,
+    isi text not null,
+    tanggal datetime not null default current_timestamp
+);
+
+create table tb_gambar(
+    id_gambar int auto_increment primary key,
+    id_berita int not null,
+    gambar varchar(100) not null,
+    foreign key (id_berita) references tb_berita(id_berita)
+);

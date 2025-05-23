@@ -8,12 +8,12 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$total_user = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_user")->fetch_assoc()['total'];
 $total_pengunjung = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_pengunjung")->fetch_assoc()['total'];
 $total_sponsor = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_sponsor")->fetch_assoc()['total'];
 $total_pariwisata = mysqli_query($conn, "SELECT COUNT(*) as total FROM tempat_wisata")->fetch_assoc()['total'];
 $total_transaksi = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_transaksi")->fetch_assoc()['total'];
 $total_booking = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_pemesanan")->fetch_assoc()['total'];
+$total_berita = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_berita")->fetch_assoc()['total'];
 
 $conn->close();
 ?>
@@ -61,7 +61,10 @@ $conn->close();
         <li class="nav-item">
             <a class="nav-link" href="booking.php">Booking</a>
         </li>
-        </ul>
+        <li class="nav-item">
+            <a class="nav-link" href="berita.php">Berita</a>
+        </li>
+      </ul>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search">
           <button class="btn btn-outline-light me-2" type="submit">Search</button>
@@ -87,15 +90,6 @@ $conn->close();
 
     <!-- Dashboard Cards -->
     <div class="row">
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Pengguna</h5>
-            <div class="stat-value text-primary"><?= $total_user ?></div>
-            <div class="stat-label">Total Pengguna</div>
-          </div>
-        </div>
-      </div>
       <div class="col-md-4 mb-4">
         <div class="card shadow-sm h-100 text-center">
           <div class="card-body">
@@ -138,6 +132,15 @@ $conn->close();
             <h5 class="card-title">Laporan Booking</h5>
             <div class="stat-value text-danger"><?= $total_booking?></div>
             <div class="stat-label">Total Booking</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title">Berita</h5>
+            <div class="stat-value text-primary"><?= $total_berita ?></div>
+            <div class="stat-label">Total Berita</div>
           </div>
         </div>
       </div>

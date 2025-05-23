@@ -50,6 +50,9 @@ $query = mysqli_query($conn, "SELECT p.*, pg.nama AS nama_pengunjung, tw.nama_te
             <li class="nav-item">
                 <a class="nav-link active" href="booking.php">Booking</a>
             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="berita.php">Berita</a>
+            </li>
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search">

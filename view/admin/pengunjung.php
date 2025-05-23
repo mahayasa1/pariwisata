@@ -62,6 +62,9 @@ $query = mysqli_query($conn, "SELECT * FROM tb_pengunjung");
             <li class="nav-item">
                 <a class="nav-link" href="booking.php">Booking</a>
             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="berita.php">Berita</a>
+            </li>
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search">
