@@ -1,47 +1,70 @@
 <?php
-session_start(); // harus paling atas sebelum output HTML
+session_start();
 require_once '../../config/database.php';
 
-
-$id_tempat = $_GET['id'];
-$tempat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM tempat_wisata WHERE id_tempat=$id_tempat"));
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_pengunjung = $_SESSION['id_pengunjung'];
-    $tanggal = $_POST['tanggal'];
-    $jumlah = $_POST['jumlah_tiket'];
-    $total = $tempat['harga_tiket'] * $jumlah;
-
-    $query = "INSERT INTO tb_pemesanan (id_pengunjung, id_tempat, tanggal, jumlah_tiket, total_harga)
-              VALUES ('$id_pengunjung', '$id_tempat', '$tanggal', '$jumlah', '$total')";
-
-    mysqli_query($conn, $query) or die(mysqli_error($conn));
-
-    header("Location: transaksi.php");
+// Cek apakah sudah login dan level pengunjung
+if (!isset($_SESSION['username']) || $_SESSION['level'] !== 'pengunjung') {
+    echo "<script>alert('Silakan login sebagai pengunjung.'); window.location='../../auth/login_pengunjung.php';</script>";
     exit;
 }
+
+$id_pengunjung = $_SESSION['id_pengunjung'];
+
+// Ambil data tempat wisata dari parameter GET
+$id_tempat = $_GET['id_tempat'] ?? $_GET['id'] ?? null;
+if (!$id_tempat) {
+    echo "<script>alert('Tempat wisata tidak ditemukan.'); window.location='../pengunjung/index.php';</script>";
+    exit;
+}
+
+// Ambil data tempat wisata
+$result = mysqli_query($conn, "SELECT * FROM tempat_wisata WHERE id_tempat = $id_tempat");
+$tempat = mysqli_fetch_assoc($result);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $tanggal = $_POST['tanggal'] ?? date('Y-m-d');
+    $jumlah_tiket = (int) $_POST['jumlah_tiket'];
+    $total_harga = $jumlah_tiket * $tempat['harga_tiket'];
+
+    // Simpan ke database
+    $query = mysqli_query($conn, "INSERT INTO tb_pemesanan (id_pengunjung, id_tempat, tanggal, jumlah_tiket, total_harga) VALUES ('$id_pengunjung', '$id_tempat', '$tanggal', '$jumlah_tiket', '$total_harga')");
+
+    if ($query) {
+        echo "<script>alert('Pemesanan berhasil!'); window.location='transaksi.php';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Gagal memesan.');</script>";
+    }
+}
 ?>
-<!doctype html>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Booking Tempat</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Booking Tempat Wisata</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 <div class="container mt-5">
-  <h2>Booking: <?= $tempat['nama_tempat'] ?></h2>
-  <form method="post">
-    <div class="mb-3">
-      <label for="tanggal" class="form-label">Tanggal Kunjungan</label>
-      <input type="date" class="form-control" name="tanggal" required>
-    </div>
-    <div class="mb-3">
-      <label for="jumlah_tiket" class="form-label">Jumlah Tiket</label>
-      <input type="number" class="form-control" name="jumlah_tiket" min="1" required>
-    </div>
-    <button type="submit" class="btn btn-success">Booking Sekarang</button>
-  </form>
+    <h2 class="mb-4">Booking: <?= htmlspecialchars($tempat['nama_tempat']) ?></h2>
+
+    <form method="POST" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label class="form-label">Tanggal Kunjungan</label>
+            <input type="date" name="tanggal" class="form-control" required value="<?= date('Y-m-d') ?>">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Jumlah Tiket</label>
+            <input type="number" name="jumlah_tiket" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Harga Tiket</label>
+            <input type="text" class="form-control" value="Rp <?= number_format($tempat['harga_tiket'], 2, ',', '.') ?>" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Pesan Sekarang</button>
+        <a href="../pengunjung/index.php" class="btn btn-secondary">Kembali</a>
+    </form>
 </div>
 </body>
 </html>

@@ -75,3 +75,11 @@ create table tb_gambar(
     gambar varchar(100) not null,
     foreign key (id_berita) references tb_berita(id_berita)
 );
+
+CREATE TABLE tb_berita_wisata (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_berita INT NOT NULL,
+    id_tempat INT NOT NULL,
+    FOREIGN KEY (id_berita) REFERENCES tb_berita(id_berita),
+    FOREIGN KEY (id_tempat) REFERENCES tempat_wisata(id_tempat)
+);

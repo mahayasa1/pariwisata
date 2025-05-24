@@ -6,17 +6,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Hindari SQL Injection
     $username = mysqli_real_escape_string($conn, $username);
     $password = mysqli_real_escape_string($conn, $password);
 
-    // Perbaikan query
+    // Cek dari tb_user untuk level pengunjung
     $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE username='$username' AND password='$password' AND level='pengunjung'");
 
     if ($query && mysqli_num_rows($query) > 0) {
         $data = mysqli_fetch_assoc($query);
+
+        // Cari id_pengunjung dari tb_pengunjung
+        $pengunjung = mysqli_query($conn, "SELECT * FROM tb_pengunjung WHERE username='$username'");
+        $dataPengunjung = mysqli_fetch_assoc($pengunjung);
+
         $_SESSION['username'] = $data['username'];
-        $_SESSION['level'] = 'admin';
+        $_SESSION['level'] = $data['level'];
+        $_SESSION['id_pengunjung'] = $dataPengunjung['id_pengunjung']; // Penting untuk booking
+
         header("Location: ../../../view/pengunjung/index.php");
         exit;
     } else {
@@ -24,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

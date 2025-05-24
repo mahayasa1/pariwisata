@@ -4,28 +4,33 @@ require_once '../../../config/database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $_POST['judul'];
     $isi = $_POST['isi'];
-    
-    mysqli_query($conn, "INSERT INTO tb_berita (judul, isi) VALUES ('$judul', '$isi')");
+    $tanggal = date('Y-m-d H:i:s');
+    $tempat_ids = $_POST['tempat_ids'] ?? [];
+
+    mysqli_query($conn, "INSERT INTO tb_berita (judul, isi, tanggal) VALUES ('$judul', '$isi', '$tanggal')");
     $id_berita = mysqli_insert_id($conn);
 
-    foreach ($_FILES['gambar']['tmp_name'] as $key => $tmp_name) {
-    $originalName = $_FILES['gambar']['name'][$key];
-    $ext = pathinfo($originalName, PATHINFO_EXTENSION);
-
-    // Buat nama unik
-    $uniqueName = uniqid('img_', true) . '.' . $ext;
-
-    $target_path = '../../../asset/img/berita/' . $uniqueName;
-
-    if (move_uploaded_file($tmp_name, $target_path)) {
-        mysqli_query($conn, "INSERT INTO tb_gambar (id_berita, gambar) VALUES ($id_berita, '$uniqueName')");
+    // Gambar upload
+    foreach ($_FILES['gambar']['tmp_name'] as $i => $tmp) {
+        if ($_FILES['gambar']['error'][$i] === 0) {
+            $name = uniqid() . '_' . $_FILES['gambar']['name'][$i];
+            move_uploaded_file($tmp, "../../../asset/img/berita/$name");
+            mysqli_query($conn, "INSERT INTO tb_gambar (id_berita, gambar) VALUES ($id_berita, '$name')");
+        }
     }
+
+    // Relasi tempat wisata
+    foreach ($tempat_ids as $id_tempat) {
+        mysqli_query($conn, "INSERT INTO tb_berita_wisata (id_berita, id_tempat) VALUES ($id_berita, $id_tempat)");
+    }
+
+    header("Location: ../../../view/admin/berita.php");
+    exit;
 }
 
-
-    echo "<script>alert('Berita berhasil ditambahkan'); location.href='../../../view/admin/berita.php';</script>";
-}
+$tempat = mysqli_query($conn, "SELECT * FROM tempat_wisata");
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,25 +40,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Tambah berita</title>
 </head>
 <body class="bg-dark">
-<div class="container d-flex justify-content-center align-items-center min-vh-100 mt-4">
-    <div class="card p-4 bg-secondary text-light shadow-sm" style="max-width: 500px; width: 100%;">
-<form method="post" enctype="multipart/form-data" action="">
-    <h3 class="text-center mb-4">Tambah Berita</h3>
-  <div class="mb-3">
-    <label for="judul" class="form-label">Judul Berita</label>
-    <input type="text" name="judul" id="judul" class="form-control" required>
-  </div>
-  <div class="mb-3">
-    <label for="isi" class="form-label">Isi Berita</label>
-    <textarea name="isi" id="isi" rows="5" class="form-control" required></textarea>
-  </div>
-  <div class="mb-3">
-    <label for="gambar" class="form-label">Upload Gambar (bisa banyak)</label>
-    <input type="file" name="gambar[]" id="gambar" class="form-control" multiple required>
-  </div>
-  <button type="submit" class="btn btn-primary">Simpan Berita</button>
-</form>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100 mt-4">
+        <div class="card p-4 bg-secondary text-light shadow-sm" style="max-width: 500px; width: 100%;">
+        <form method="post" enctype="multipart/form-data">
+            <h3 class="text-center mb-4">Tambah Berita</h3>
+            <div class="mb-3">
+                <label for="judul" class="form-label">Judul</label>
+                <input type="text" name="judul" id="judul" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="isi" class="form-label">Isi</label>
+                <textarea name="isi" class="form-control" rows="6" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="gambar" class="form-label">Upload Gambar</label>
+                <input type="file" name="gambar[]" multiple class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Destinasi Terkait</label>
+                <?php while($row = mysqli_fetch_assoc($tempat)): ?>
+                    <div>
+                        <input type="checkbox" name="tempat_ids[]" value="<?= $row['id_tempat'] ?>">
+                        <?= htmlspecialchars($row['nama_tempat']) ?>
+                    </div>
+                    <?php endwhile; ?>
+                </div>
+                <button type="submit" class="btn btn-success">Simpan</button>
+                <a href="berita_index.php" class="btn btn-secondary">Kembali</a>
+            </form>
+        </div>   
+    </div>
 </body>
 </html>

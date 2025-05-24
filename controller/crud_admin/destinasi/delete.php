@@ -8,8 +8,8 @@ $id = $_GET['id'];
     $row = mysqli_fetch_assoc($result);
     $gambar = $row['gambar'];
     
-    if ($gambar && file_exists("../../../asset/img/" . $gambar)) {
-        unlink("../../../asset/img/" . $gambar);
+    if ($gambar && file_exists("../../../asset/img/destinasi/" . $gambar)) {
+        unlink("../../../asset/img/destinasi/" . $gambar);
     }
 
 

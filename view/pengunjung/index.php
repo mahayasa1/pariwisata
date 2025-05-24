@@ -1,55 +1,83 @@
 <?php
 require_once '../../config/database.php';
-session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: ../../auth/login/login_pengunjung.php");
-    exit();
-}
-$query = mysqli_query($conn, "SELECT * FROM tempat_wisata");
+
+// Ambil 1 berita terbaru sebagai headline
+$beritaUtama = mysqli_query($conn, "SELECT * FROM tb_berita ORDER BY id_berita DESC LIMIT 1");
+$utama = mysqli_fetch_assoc($beritaUtama);
+
+// Ambil 5 berita terbaru untuk sidebar
+$beritaSidebar = mysqli_query($conn, "SELECT * FROM tb_berita ORDER BY id_berita DESC LIMIT 5");
 ?>
 
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="utf-8">
-  <title>Tempat Wisata</title>
+  <meta charset="UTF-8">
+  <title>Berita & Informasi Tempat Wisata - DIBALI</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-  <h3 class="mb-4 fw-bold">Berita & Informasi Tempat Wisata</h3>
 
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="index.php">DIBALI</a>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" href="riwayat_pesanan.php">RIWAYAT PESANAN</a>
+            </li>
+    </ul>\
+  </div>
+
+</nav>
+
+<div class="container mt-4">
+  <h3 class="fw-bold mb-4">Berita & Informasi Tempat Wisata</h3>
   <div class="row">
-    <?php
-    $counter = 0;
-    while ($row = mysqli_fetch_assoc($query)):
-      $counter++;
-    ?>
-      <div class="col-md-6 mb-4">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="../../asset/img/destinasi/<?= $row['gambar'] ?>" class="img-fluid rounded-start" alt="<?= $row['nama_tempat'] ?>">
-          </div>
-          <div class="col-md-8">
-            <div class="p-2">
-              <h6 class="mb-1 fw-bold">
-                <a href="berita.php?id=<?= $row['id_tempat'] ?>" class="text-decoration-none"><?= $row['nama_tempat'] ?></a>
-              </h6>
-              <small class="text-muted d-block mb-1">Dipublikasikan: <?= date('d M Y') ?></small>
-              <p class="mb-2"><?= substr(strip_tags($row['deskripsi']), 0, 120) ?>...</p>
-            </div>
+    
+    <!-- Kolom Kiri: Berita utama -->
+    <div class="col-lg-8">
+      <div class="mb-5">
+        <?php if ($utama): ?>
+          <?php
+          $gambarUtamaQuery = mysqli_query($conn, "SELECT gambar FROM tb_gambar WHERE id_berita = {$utama['id_berita']} LIMIT 1");
+          $gambarUtamaData = mysqli_fetch_assoc($gambarUtamaQuery);
+          $gambarUtama = $gambarUtamaData ? $gambarUtamaData['gambar'] : 'default.jpg';
+          ?>
+          <h4 class="fw-bold"><?= htmlspecialchars($utama['judul']) ?></h4>
+          <img src="../../asset/img/berita/<?= htmlspecialchars($gambarUtama) ?>" class="img-fluid rounded mb-3" alt="Gambar Berita Utama">
+          <p><?= nl2br(htmlspecialchars(substr($utama['isi'], 0, 500))) ?>...</p>
+          <a href="berita.php?type=berita&id=<?= $utama['id_berita'] ?>" class="btn btn-primary mt-3">Lihat Selengkapnya</a>
+        <?php else: ?>
+          <p>Belum ada berita untuk ditampilkan.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <!-- Kolom Kanan: Berita lainnya -->
+    <div class="col-lg-4">
+      <h5 class="mb-3">Berita Lainnya</h5>
+      <?php while ($data = mysqli_fetch_assoc($beritaSidebar)): ?>
+        <?php
+        $gambarQuery = mysqli_query($conn, "SELECT gambar FROM tb_gambar WHERE id_berita = {$data['id_berita']} LIMIT 1");
+        $gambarData = mysqli_fetch_assoc($gambarQuery);
+        $gambar = $gambarData ? $gambarData['gambar'] : 'default.jpg';
+        ?>
+        <div class="d-flex mb-3 border-bottom pb-2">
+          <img src="../../asset/img/berita/<?= htmlspecialchars($gambar) ?>" width="80" height="80" class="me-2 rounded" alt="Gambar Berita">
+          <div>
+            <a href="berita.php?type=berita&id=<?= $data['id_berita'] ?>" class="text-decoration-none fw-bold text-primary">
+              <?= htmlspecialchars($data['judul']) ?>
+            </a>
+            <div class="text-muted small">Dipublikasikan: <?= date('d M Y', strtotime($data['tanggal'])) ?></div>
+            <p class="mb-0"><?= htmlspecialchars(substr($data['isi'], 0, 80)) ?>...</p>
           </div>
         </div>
-      </div>
-    <?php endwhile; ?>
+      <?php endwhile; ?>
+    </div>
 
-    <?php if ($counter === 0): ?>
-      <div class="col-12">
-        <p class="text-muted">Belum ada data tempat wisata.</p>
-      </div>
-    <?php endif; ?>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
