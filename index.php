@@ -46,7 +46,6 @@ $beritaSidebar = mysqli_query($conn, "SELECT * FROM tb_berita ORDER BY id_berita
         <?php endif; ?>
       </div>
     </div>
-
     <!-- Kolom Kanan: Berita lainnya -->
     <div class="col-lg-4">
       <h5 class="mb-3">Berita Lainnya</h5>

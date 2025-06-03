@@ -17,6 +17,23 @@ $query = mysqli_query($conn, "
     JOIN tb_pengunjung peng ON p.id_pengunjung = peng.id_pengunjung
     JOIN tempat_wisata w ON p.id_tempat = w.id_tempat
 ");
+
+
+
+// Proses update status transaksi jika form disubmit
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id_transaksi = $_POST['id_transaksi'];
+
+    // Update status ke 'lunas'
+    $query = mysqli_query($conn, "UPDATE tb_transaksi SET status='lunas' WHERE id_transaksi = $id_transaksi");
+
+    if ($query) {
+        echo "<script>alert('Status berhasil diubah menjadi lunas'); window.location='transaksi.php';</script>";
+    } else {
+        echo "<script>alert('Gagal mengubah status'); window.location='transaksi.php';</script>";
+    }
+}
 ?>
 
 
@@ -70,7 +87,7 @@ $query = mysqli_query($conn, "
             <li class="nav-item">
                 <a class="nav-link" href="booking.php">Booking</a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="berita.php">Berita</a>
             </li>
             </ul>
@@ -112,6 +129,13 @@ $query = mysqli_query($conn, "
                         <span class="badge bg-<?= $row['status'] == 'lunas' ? 'success' : 'warning' ?>">
                             <?= ucfirst($row['status']) ?>
                         </span>
+
+                        <?php if ($row['status'] == 'belum lunas'): ?>
+                            <form action="" method="POST" style="display:inline;">
+                                <input type="hidden" name="id_transaksi" value="<?= $row['id_transaksi'] ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Ubah</button>
+                            </form>
+                        <?php endif; ?>
                     </td>
                     <td>
                         <a href="../../controller./crud_admin/transaksi/update.php?id=<?= $row['id_transaksi'] ?>" class="btn btn-warning btn-sm mb-1">Edit</a><br>

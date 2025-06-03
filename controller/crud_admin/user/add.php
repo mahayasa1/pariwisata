@@ -51,7 +51,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <select class="form-select" id="level" name="level" required>
                         <option value="" disabled selected>Select role</option>
                         <option value="admin">Admin</option>
-                        <option value="user">User</option>
+                        <option value="pengunjung">pengunjung</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Add User</button>

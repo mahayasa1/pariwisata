@@ -66,7 +66,7 @@ $tempat = mysqli_query($conn, "SELECT * FROM tempat_wisata");
                     <?php endwhile; ?>
                 </div>
                 <button type="submit" class="btn btn-success">Simpan</button>
-                <a href="berita_index.php" class="btn btn-secondary">Kembali</a>
+                <a href="../../../view/admin/berita.php" class="btn btn-secondary">Kembali</a>
             </form>
         </div>   
     </div>

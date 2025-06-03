@@ -35,7 +35,7 @@ $gambar = mysqli_query($conn , "SELECT * FROM tb_gambar")
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="#">DIBALI</a>
+            <a class="navbar-brand" >DIBALI</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -59,6 +59,9 @@ $gambar = mysqli_query($conn , "SELECT * FROM tb_gambar")
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="transaksi.php">Transaksi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="booking.php">Booking</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="berita.php">Berita</a>
