@@ -6,23 +6,12 @@ create table tb_user(
     id_user int auto_increment primary key,
     username varchar(50) not null,
     password varchar(50) not null,
-    level enum('admin', 'pengunjung', 'sponsor') not null
+    level enum('admin', 'pengunjung') not null
 );
 
 create table tb_pengunjung(
     id_pengunjung int auto_increment primary key,
     nama varchar(50) not null,
-    alamat varchar(100) not null,
-    no_telp varchar(15) not null,
-    email varchar(50) not null,
-    username varchar(50) not null,
-    password varchar(50) not null
-);
-
-create table tb_sponsor(
-    id_sponsor int auto_increment primary key,
-    nama varchar(50) not null,
-    gambar text not null,
     alamat varchar(100) not null,
     no_telp varchar(15) not null,
     email varchar(50) not null,
@@ -53,13 +42,14 @@ create table tb_pemesanan(
     foreign key (id_tempat) references tempat_wisata(id_tempat)
 );
 
-create table tb_transaksi(
-    id_transaksi int auto_increment primary key,
-    id_pemesanan int not null,
-    tanggal_transaksi date not null,
-    total_harga decimal(10,2) not null,
-    status enum('lunas', 'belum lunas') not null,
-    foreign key (id_pemesanan) references tb_pemesanan(id_pemesanan)
+CREATE TABLE tb_transaksi (
+    id_transaksi INT AUTO_INCREMENT PRIMARY KEY,
+    id_pemesanan INT NOT NULL,
+    tanggal_transaksi DATE NOT NULL,
+    total_harga DECIMAL(10,2) NOT NULL,
+    bukti_pembayaran VARCHAR(255),
+    status ENUM('lunas', 'belum lunas', 'menunggu verifikasi') NOT NULL,
+    FOREIGN KEY (id_pemesanan) REFERENCES tb_pemesanan(id_pemesanan)
 );
 
 create table tb_berita(

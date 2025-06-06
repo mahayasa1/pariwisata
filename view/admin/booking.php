@@ -41,7 +41,6 @@ $query = mysqli_query($conn, "SELECT p.*, pg.nama AS nama_pengunjung, tw.nama_te
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="user.php">User</a></li>
                 <li><a class="dropdown-item" href="pengunjung.php">Pengunjung</a></li>
-                <li><a class="dropdown-item" href="sponsorship.php">Sponsorship</a></li>
             </ul>
             </li>
             <li class="nav-item">

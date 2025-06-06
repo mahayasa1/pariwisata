@@ -43,12 +43,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ");
 
     if ($insert) {
-        echo "<script>alert('Transaksi berhasil disimpan. Silakan selesaikan pembayaran.'); window.location='riwayat_pesanan.php';</script>";
-        exit;
+        // Arahkan sesuai metode pembayaran
+        if ($metode_pembayaran === 'Transfer Bank') {
+            header("Location: bayar_transfer.php?id=$id_pemesanan");
+            exit;
+        } elseif ($metode_pembayaran === 'QRIS') {
+            header("Location: bayar_qris.php?id=$id_pemesanan");
+            exit;
+        }
     } else {
         echo "<script>alert('Gagal menyimpan transaksi.');</script>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>

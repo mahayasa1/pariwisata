@@ -52,6 +52,7 @@ $query = mysqli_query($conn, "
                     <th>Total Harga</th>
                     <th>Status Pembayaran</th>
                     <th>Tanggal Transaksi</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,10 +69,15 @@ $query = mysqli_query($conn, "
                     <td>Rp<?= number_format($row['total_harga'], 2, ',', '.') ?></td>
                     <td><?= ucfirst($row['status'] ?? 'Belum Ada') ?></td>
                     <td><?= $row['tanggal_transaksi'] ?? '-' ?></td>
+                    <td>
+                        <a href="invoice.php?id=<?= $row['id_pemesanan'] ?>" class="btn btn-sm btn-primary" target="_blank">
+                            Cetak Invoice
+                        </a>
+                    </td>
                 </tr>
                 <?php endwhile; else: ?>
                 <tr>
-                    <td colspan="7" class="text-center">Belum ada pesanan.</td>
+                    <td colspan="8" class="text-center">Belum ada pesanan.</td>
                 </tr>
                 <?php endif; ?>
             </tbody>

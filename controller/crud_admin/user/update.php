@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <select class="form-select" id="level" name="level" required>
                         <option value="" disabled>Select Role</option>
                         <option value="admin" <?= $row['level'] == 'admin' ? 'selected' : '' ?>>Admin</option>
-                        <option value="user" <?= $row['level'] == 'user' ? 'selected' : '' ?>>User</option>
+                        <option value="pengunjung" <?= $row['level'] == 'pengunjung' ? 'selected' : '' ?>>Pengunjung</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Update User</button>

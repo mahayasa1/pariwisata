@@ -53,7 +53,6 @@ $query = mysqli_query($conn, "SELECT * FROM tb_user");
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="user.php">User</a></li>
                 <li><a class="dropdown-item" href="pengunjung.php">Pengunjung</a></li>
-                <li><a class="dropdown-item" href="sponsorship.php">Sponsorship</a></li>
             </ul>
             </li>
             <li class="nav-item">

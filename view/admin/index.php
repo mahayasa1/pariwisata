@@ -9,7 +9,6 @@ if (!isset($_SESSION['username'])) {
 }
 
 $total_pengunjung = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_pengunjung")->fetch_assoc()['total'];
-$total_sponsor = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_sponsor")->fetch_assoc()['total'];
 $total_pariwisata = mysqli_query($conn, "SELECT COUNT(*) as total FROM tempat_wisata")->fetch_assoc()['total'];
 $total_transaksi = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_transaksi")->fetch_assoc()['total'];
 $total_booking = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_pemesanan")->fetch_assoc()['total'];
@@ -52,7 +51,6 @@ $conn->close();
             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="user.php">User</a></li>
                 <li><a class="dropdown-item" href="pengunjung.php">Pengunjung</a></li>
-                <li><a class="dropdown-item" href="sponsorship.php">Sponsorship</a></li>
             </ul>
         </li>
         <li class="nav-item">
@@ -96,15 +94,6 @@ $conn->close();
             <h5 class="card-title">Pengunjung</h5>
             <div class="stat-value text-success"><?= $total_pengunjung?></div>
             <div class="stat-label">Total Pengunjung</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Sponsorship</h5>
-            <div class="stat-value text-success"><?= $total_sponsor?></div>
-            <div class="stat-label">Total Sponsorship</div>
           </div>
         </div>
       </div>

@@ -78,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="user.php">User</a></li>
                 <li><a class="dropdown-item" href="pengunjung.php">Pengunjung</a></li>
-                <li><a class="dropdown-item" href="sponsorship.php">Sponsorship</a></li>
             </ul>
             </li>
             <li class="nav-item">
@@ -130,12 +129,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?= ucfirst($row['status']) ?>
                         </span>
 
-                        <?php if ($row['status'] == 'belum lunas'): ?>
+                        <?php if ($row['status'] == 'belum lunas' || $row['status'] == 'menunggu verifikasi'): ?>
                             <form action="" method="POST" style="display:inline;">
                                 <input type="hidden" name="id_transaksi" value="<?= $row['id_transaksi'] ?>">
-                                <button type="submit" class="btn btn-sm btn-outline-primary">Ubah</button>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Verifikasi</button>
                             </form>
                         <?php endif; ?>
+
                     </td>
                     <td>
                         <a href="../../controller./crud_admin/transaksi/update.php?id=<?= $row['id_transaksi'] ?>" class="btn btn-warning btn-sm mb-1">Edit</a><br>
