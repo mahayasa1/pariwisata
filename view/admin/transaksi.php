@@ -89,6 +89,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="nav-item">
                 <a class="nav-link" href="berita.php">Berita</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="statistik.php">Statistik</a>
+            </li>
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search">

@@ -61,8 +61,11 @@ $query = mysqli_query($conn, "SELECT * FROM tb_user");
             <li class="nav-item">
                 <a class="nav-link" href="booking.php">Booking</a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="berita.php">Berita</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="statistik.php">Statistik</a>
             </li>
             </ul>
             <form class="d-flex">
