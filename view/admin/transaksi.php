@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
 
 // Ambil data transaksi lengkap dengan info pemesanan, pengunjung dan tempat
 $query = mysqli_query($conn, "
-    SELECT t.id_transaksi, t.tanggal_transaksi, t.total_harga, t.status,
+    SELECT t.id_transaksi, t.tanggal_transaksi, t.total_harga, t.bukti_pembayran, t.status,
             p.id_pemesanan, p.tanggal AS tanggal_pemesanan, p.jumlah_tiket,
             w.nama_tempat, peng.nama AS nama_pengunjung
     FROM tb_transaksi t
@@ -127,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?= $row['tanggal_transaksi'] ?></td>
                     <td><?= $row['jumlah_tiket'] ?></td>
                     <td>Rp<?= number_format($row['total_harga'], 0, ',', '.') ?></td>
+                    <td><img src="../../assets/img/bukti/<?= $row['butki_pembayran']?>" alt=""></td>
                     <td>
                         <span class="badge bg-<?= $row['status'] == 'lunas' ? 'success' : 'warning' ?>">
                             <?= ucfirst($row['status']) ?>
@@ -149,6 +150,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </tbody>
         </table>
     </div>
+    <!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modalImage" src="" class="img-fluid rounded" alt="Popup Gambar">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script Bootstrap & JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function showImageModal(imgElement) {
+    const modalImg = document.getElementById("modalImage");
+    modalImg.src = imgElement.src;
+    const myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+    myModal.show();
+  }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
