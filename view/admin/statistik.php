@@ -125,7 +125,7 @@ foreach ($dataBulananPerTempat as $namaTempat => $data) {
     <canvas id="chartHarian" height="100"></canvas>
     <table class="table table-bordered">
         <thead>
-        <tr><th>Tanggal</th><th>Tempat Wisata</th><th>Total Pengunjung</th></tr>
+        <tr><th>Tanggal</th><th>Tempat Wisata</th><th>Jumlah Pemesanan Tiket</th></tr>
         </thead>
         <tbody>
         <?php
@@ -142,10 +142,10 @@ foreach ($dataBulananPerTempat as $namaTempat => $data) {
     <canvas id="chartBulanan" height="100"></canvas>
     <table class="table table-bordered">
         <thead>
-        <tr><th>Bulan</th><th>Tempat Wisata</th><th>Total Pengunjung</th></tr>
+        <tr><th>Bulan</th><th>Tempat Wisata</th><th>Jumlah Pemesanan Tiket</th></tr>
         </thead>
         <tbody>
-        <?php
+        <?php  
         $bulanan = $conn->query("SELECT DATE_FORMAT(tanggal, '%Y-%m') AS bulan, tempat_wisata.nama_tempat, SUM(tb_pemesanan.jumlah_tiket) AS total FROM tb_pemesanan JOIN tempat_wisata ON tb_pemesanan.id_tempat = tempat_wisata.id_tempat GROUP BY bulan, tb_pemesanan.id_tempat ORDER BY bulan DESC, tempat_wisata.nama_tempat ASC");
         while ($row = $bulanan->fetch_assoc()) {
             echo "<tr><td>{$row['bulan']}</td><td>{$row['nama_tempat']}</td><td>{$row['total']}</td></tr>";

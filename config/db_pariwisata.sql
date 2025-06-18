@@ -73,3 +73,12 @@ CREATE TABLE tb_berita_wisata (
     FOREIGN KEY (id_berita) REFERENCES tb_berita(id_berita),
     FOREIGN KEY (id_tempat) REFERENCES tempat_wisata(id_tempat)
 );
+
+CREATE TABLE tb_komentar (
+    id_komentar INT AUTO_INCREMENT PRIMARY KEY,
+    id_berita INT NOT NULL,
+    nama VARCHAR(50) NOT NULL,
+    komentar TEXT NOT NULL,
+    tanggal DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_berita) REFERENCES tb_berita(id_berita)
+);

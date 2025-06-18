@@ -3,7 +3,7 @@ session_start();
 include_once "../../config/database.php";
 
 header("Content-Type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=statistik_pengunjung.xls");
+header("Content-Disposition: attachment; filename=statistik_Pemesanan_Tiket.xls");
 
 // Supaya karakter seperti emoji dan huruf spesial tampil benar
 echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
@@ -17,7 +17,7 @@ echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
         <tr>
             <th>Tanggal</th>
             <th>Tempat Wisata</th>
-            <th>Total Pengunjung</th>
+            <th>Total Pemesanan Tiket</th>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +44,7 @@ echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
         <tr>
             <th>Bulan</th>
             <th>Tempat Wisata</th>
-            <th>Total Pengunjung</th>
+            <th>Total Pemesanan Tiket</th>
         </tr>
     </thead>
     <tbody>
